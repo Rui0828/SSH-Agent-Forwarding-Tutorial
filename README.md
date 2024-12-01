@@ -35,11 +35,13 @@ Run the following command in PowerShell:
 ```powershell
 Start-Service ssh-agent
 ```
+
 #### b. Enable SSH Agent on Startup (Optional)  
 To automatically start the SSH agent when Windows boots:  
 ```powershell
 Set-Service -Name ssh-agent -StartupType Automatic
 ```
+
 #### c. Add Your SSH Key to the Agent
 ```powershell
 ssh-add
@@ -72,22 +74,22 @@ ssh-add -l
 ```
 #### Common Issues:
 1. Error: `Could not open a connection to your authentication agent.`
-  - This means the SSH agent is not running. Start it with:
-    ```sh
-    eval "$(ssh-agent -s)"
-    ```
-  - Then, retry `ssh-add -l`.
+    - This means the SSH agent is not running. Start it with:
+        ```sh
+        eval "$(ssh-agent -s)"
+        ```
+    - Then, retry `ssh-add -l`.
 
 2. Error: The agent has no identities.
-  - This means no key was forwarded. Troubleshoot:  
-    - Check the SSH_AUTH_SOCK environment variable:
-      ```sh
-       echo $SSH_AUTH_SOCK
-      ```
-      It should output a path like /tmp/ssh-xxxxxx/agent.xxxx.  
-      If not, verify that you used the -A flag or set ForwardAgent yes in your SSH config.  
-    - If `SSH_AUTH_SOCK` is set correctly, ensure your private key is added to the SSH agent locally.
-      
+      - This means no key was forwarded. Troubleshoot:  
+        - Check the SSH_AUTH_SOCK environment variable:
+          ```sh
+           echo $SSH_AUTH_SOCK
+          ```
+          It should output a path like /tmp/ssh-xxxxxx/agent.xxxx.  
+          If not, verify that you used the -A flag or set ForwardAgent yes in your SSH config.  
+        - If `SSH_AUTH_SOCK` is set correctly, ensure your private key is added to the SSH agent locally.
+
 #### Test SSH Access to GitHub:  
 If your public key is added to GitHub, test the connection:  
 ```sh
@@ -106,8 +108,8 @@ When using VS Code's Remote - SSH extension, you might encounter issues with age
 3. Uncheck the box to disable it.
 4. Reconnect to the remote server
 
-### Solution 2: Manually Set SSH_AUTH_SOCK  
-Every time you connect to a container, set the SSH_AUTH_SOCK variable manually:  
+### Solution 2: Manually Set `SSH_AUTH_SOCK`  
+Every time you connect to a container, set the `SSH_AUTH_SOCK` variable manually:  
 ```sh
 export SSH_AUTH_SOCK=$(ls -t /tmp/ssh-**/* | head -1)
 ```
@@ -117,3 +119,7 @@ For convenience, you can add this line to your `.bashrc` file.
 With SSH Agent Forwarding, you can securely use your SSH keys across remote systems without copying them. This setup improves security and streamlines workflows, especially for development environments like GitHub or VS Code.
 
 Feel free to contribute or raise issues if you find something missing or unclear!  
+
+## License
+
+This work is licensed under the [CC BY 4.0](LICENSE).
